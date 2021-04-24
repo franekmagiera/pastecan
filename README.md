@@ -1,4 +1,6 @@
 # Pastecan
+![pastecan-print-screen](/docs/static/pastecan.png)
+
 Pastecan is a [pastebin](https://pastebin.com/) clone. The backend is powered by a MySQL database and a REST API built with Python using the [aiohttp](https://docs.aiohttp.org/en/stable/) framework. The client side is a Single Page Application (SPA) created with TypeScript using preact, preact-router, react-bootstrap. (For a complete list of packages used see `package.json` and `requirements.txt`)
 
 ## Features
