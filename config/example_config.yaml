@@ -1,0 +1,18 @@
+TWITTER_API_KEY: placeholder
+TWITTER_API_SECRET_KEY: placeholder
+
+MYSQL_HOST: mysql
+MYSQL_USER: root 
+MYSQL_PASSWORD: secret 
+MYSQL_DB: pastecan
+HOST: 127.0.0.1
+
+OAUTH_CALLBACK: http://127.0.0.1:8080/api/token
+
+REQUEST_TOKEN_ENDPOINT: https://api.twitter.com/oauth/request_token
+AUTHENTICATE_ENDPOINT: https://api.twitter.com/oauth/authenticate
+ACCESS_TOKEN_ENDPOINT: https://api.twitter.com/oauth/access_token
+VERIFY_CREDENTIALS_ENDPOINT: https://api.twitter.com/1.1/account/verify_credentials.json
+
+JWT_KEY: placeholder
+JWT_ALGORITHM: HS256

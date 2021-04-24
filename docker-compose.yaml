@@ -1,0 +1,8 @@
+mysql:
+  image: mysql:5.7
+  environment:
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_DATABASE=pastecan
+  ports:
+    - "3306:3306"
+  container_name: pastecan_mysql

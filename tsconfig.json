@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "./pastecan-ui/dist/",
+        "module": "es6",
+        "target": "es5",
+        "noImplicitAny": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+    },
+    "include": [
+        "pastecan-ui/src"
+    ]
+}
