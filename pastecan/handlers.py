@@ -1,6 +1,5 @@
 from aiohttp import web
 from datetime import datetime, timedelta
-from aiohttp.web_exceptions import HTTPBadRequest
 import jwt
 from json import dumps
 from jsonschema import validate
@@ -32,9 +31,9 @@ def _get_claims(cookies, jwt_key, jwt_algorithm):
             user_id = claims.get('userId')
             screen_name = claims.get('screenName')
         except jwt.ExpiredSignature:
-            raise HTTPBadRequest('Session expired, please try logging out and loggin in again')
+            raise web.HTTPBadRequest('Session expired, please try logging out and loggin in again')
         except jwt.InvalidSignatureError:
-            raise HTTPBadRequest('Could not verify user identity')
+            raise web.HTTPBadRequest('Could not verify user identity')
     else:
         user_id = None
         screen_name = None

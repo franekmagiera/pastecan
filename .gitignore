@@ -2,3 +2,5 @@ node_modules/
 __pycache__/
 pastecan-ui/dist/
 config/config.yaml
+.vscode/
+env/

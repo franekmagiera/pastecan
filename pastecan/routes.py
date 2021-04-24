@@ -1,4 +1,16 @@
-from handlers import delete_paste, get_index, get_paste, get_pastes, invalidate_token, jane_login, john_login, post_paste, put_paste, token, twitter_login
+from handlers import (
+    delete_paste,
+    get_index,
+    get_paste,
+    get_pastes,
+    invalidate_token,
+    jane_login,
+    john_login,
+    post_paste,
+    put_paste,
+    token,
+    twitter_login
+)
 from settings import STATIC_DIR
 
 def setup_routes(app):

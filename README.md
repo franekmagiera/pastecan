@@ -1,5 +1,5 @@
 # Pastecan
-Pastecan is a [pastebin](https://pastebin.com/) clone. The backend is powered by a MySQL database and a REST API built with Python using the [aiohttp](https://docs.aiohttp.org/en/stable/) framework. The client side is a Single Page Application (SPA) created with TypeScript using preact, preact-router, react-bootstrap. (For a complete list of packages used see `package.json`)
+Pastecan is a [pastebin](https://pastebin.com/) clone. The backend is powered by a MySQL database and a REST API built with Python using the [aiohttp](https://docs.aiohttp.org/en/stable/) framework. The client side is a Single Page Application (SPA) created with TypeScript using preact, preact-router, react-bootstrap. (For a complete list of packages used see `package.json` and `requirements.txt`)
 
 ## Features
   * CRUD operations on pastes
@@ -20,21 +20,25 @@ Pastecan is a [pastebin](https://pastebin.com/) clone. The backend is powered by
 ## How to run?
 Example configuration is presented in `config/example_config.yaml`. This file should be renamed to `config.yaml` after applying suitable changes (for example after changing JWT key and Twitter API keys). Files containing confidential information should be included in a `.gitignore` file.
 
-To run (assuming you have all the necessary libraries etc. - see TODOs):
+To run:
 
 ```
 $ cd pastecan
+
 $ yarn install
 $ yarn build
 
+$ python -m venv env
+$ source env/bin/activate
+$ pip install -r requirements.txt
+
 $ docker-compose up -d
+
 $ python pastecan/main.py
 ```
 
 ## TODO:
  * Make set up easy
-   * add `requirements.txt`, `venv`
-   * describe the steps in `README`
  * Add tests, `flake8`, `black`, `mypy`
  * Add input sanitization on the client side
  * Create swagger documentation
