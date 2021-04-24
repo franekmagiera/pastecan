@@ -38,6 +38,7 @@ $ python pastecan/main.py
 ```
 
 ## TODO:
+ * Handle cases where user denies access via Twitter.
  * Make set up easy
  * Add tests, `flake8`, `black`, `mypy`
  * Add input sanitization on the client side

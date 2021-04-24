@@ -80,8 +80,6 @@ async def _should_authorize(conn, paste_id, cookies, jwt_key, jwt_algorithm):
 
 def _create_token(user_id, user_screen_name, jwt_key, jwt_algorithm):
     expiration_date = datetime.now() + timedelta(1)  # Expires in 24h.
-    jwt_key = jwt_key
-    jwt_algorithm = jwt_algorithm
     encoded = jwt.encode({
         'iss': 'pastecan',
         'exp': int(expiration_date.timestamp()),
@@ -92,6 +90,8 @@ def _create_token(user_id, user_screen_name, jwt_key, jwt_algorithm):
 
 
 async def post_paste(request):
+    # Creates a new paste.
+
     body = await request.json()
     _verify_body(body)
 
@@ -113,6 +113,9 @@ async def post_paste(request):
 
 
 async def put_paste(request):
+    # Updates an existing paste.
+    # Only a logged in user can update their pastes.
+
     body = await request.json()
     _verify_body(body)
     paste_id = request.match_info['id']
@@ -126,6 +129,10 @@ async def put_paste(request):
 
 
 async def get_pastes(request):
+    # Gets a list of pastes. Returns only metadata (no content).
+    # If `user` param is present, returns only pastes of a given user.
+    # For a logged in user, returns their private and public pastes.
+
     params = request.query
     offset = int(params['offset']) if 'offset' in params else None
     limit = int(params['limit']) if 'limit' in params else None
@@ -133,7 +140,7 @@ async def get_pastes(request):
         raise web.HTTPBadRequest('Limit must be provided if offset was provided')
     user = params.get('user')
 
-    user_id, screen_name = _get_claims(request.cookies, request.app['jwt_key'], request.app['jwt_algorithm'])
+    requester_id, requester_name = _get_claims(request.cookies, request.app['jwt_key'], request.app['jwt_algorithm'])
 
     joined_tables = pastes_table.outerjoin(users_table, pastes_table.c.user_id == users_table.c.user_id)
 
@@ -149,16 +156,16 @@ async def get_pastes(request):
     count_query = select(func.count(pastes_table.c.id)).select_from(joined_tables)
 
     filter_expression = None
-    if user is None and user_id is None:
+    if user is None and requester_id is None:
         # Fetch all public pastes.
         filter_expression = pastes_table.c.exposure == 'Public'
-    elif user is None and user_id is not None:
-        # Fetch public and private pastes of the requestee pastes and all public pastes.
-        filter_expression = or_(pastes_table.c.exposure == 'Public', pastes_table.c.user_id == user_id)
-    elif user == screen_name:
+    elif user is None and requester_id is not None:
+        # Fetch public and private pastes of the requester pastes and all public pastes.
+        filter_expression = or_(pastes_table.c.exposure == 'Public', pastes_table.c.user_id == requester_id)
+    elif user == requester_name:
         # Fetch all pastes of `user`.
-        filter_expression = pastes_table.c.user_id == user_id
-    elif user != screen_name:
+        filter_expression = pastes_table.c.user_id == requester_id
+    elif user != requester_name:
         # Fetch all public pastes of `user`.
         filter_expression = and_(users_table.c.screen_name == user, pastes_table.c.exposure == 'Public')
     
@@ -166,10 +173,8 @@ async def get_pastes(request):
     count_query = count_query.where(filter_expression)
     if limit is not None:
         query = query.limit(limit)
-        count_query = count_query.limit(limit)
     if offset is not None:
         query = query.offset(offset)
-        count_query = count_query.offset(offset)
 
 
     async with request.app['db_engine'].acquire() as conn:
@@ -222,6 +227,8 @@ async def delete_paste(request):
 
 
 async def twitter_login(request):
+    # Implements the first step of login with Twitter.
+
     twitter_api_key = request.app['twitter_api_key']
     twitter_api_secret_key = request.app['twitter_api_secret_key']
     twitter_oauth_callback = request.app['twitter_oauth_callback']
@@ -233,7 +240,7 @@ async def twitter_login(request):
 
     session = request.app['client_session']
     
-    # Fetch an anauthorized request token.
+    # Fetch an unauthorized request token.
     async with session.post(uri, headers=headers) as response:
         if response.status != 200:
             raise web.HTTPInternalServerError()
@@ -256,16 +263,20 @@ async def twitter_login(request):
             async with transaction_context(conn) as tc_conn:
                 await tc_conn.execute(login_sessions_table.insert().values(oauth_token=oauth_token, oauth_token_secret=oauth_token_secret))
 
+    # Redirect the user to Twitter so they can authenticate themselves and authorize pastecan.
     raise web.HTTPFound(URL(authenticate_endpoint) % {'oauth_token': oauth_token})
 
 
 async def token(request):
+    # Implements the third step of log in with Twitter.
+
     params = request.query
     params_oauth_token = params.get('oauth_token')
     oauth_verifier = params.get('oauth_verifier')
     oauth_token = None
     oauth_token_secret = None
 
+    # Check if the token provided by the user is presnet in session data.
     async with request.app['db_engine'].acquire() as conn:
         result = await conn.execute(login_sessions_table.select().where(login_sessions_table.c.oauth_token == params_oauth_token))
         session_data = await result.first()
@@ -293,6 +304,7 @@ async def token(request):
 
     session = request.app['client_session']
 
+    # Fetch access token.
     async with session.post(uri, headers=headers, data=request_body) as response:
         if response.status != 200:
             raise web.HTTPInternalServerError('Could not receive an access token')
@@ -344,6 +356,8 @@ async def invalidate_token(request):
 
 
 async def jane_login(request):
+    # Logs in as a mock user for demonstration purposes.
+
     encoded = _create_token(jane['user_id'], jane['screen_name'], request.app['jwt_key'], request.app['jwt_algorithm'])
 
     response = web.HTTPFound('/')
@@ -354,6 +368,8 @@ async def jane_login(request):
 
 
 async def john_login(request):
+    # Logs in as a mock user for demonstration purposes.
+
     encoded = _create_token(john['user_id'], john['screen_name'], request.app['jwt_key'], request.app['jwt_algorithm'])
 
     response = web.HTTPFound('/')
