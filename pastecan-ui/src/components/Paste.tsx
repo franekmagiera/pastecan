@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { useState, StateUpdater } from 'preact/hooks';
+import { Dispatch, StateUpdater } from 'preact/hooks';
 import { highlight } from 'prismjs';
 import 'prismjs/components/prism-clike.js';
 import 'prismjs/components/prism-java.js';
@@ -16,7 +16,7 @@ interface PasteProps {
   language: LanguageOption;
   pasteContent: string;
   readOnly: boolean;
-  onContentChange?: StateUpdater<string>;
+  onContentChange?: Dispatch<StateUpdater<string>>;
 }
 
 const Paste = (props: PasteProps) => {

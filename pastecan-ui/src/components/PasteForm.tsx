@@ -1,5 +1,5 @@
 import { h, RefObject } from 'preact';
-import { StateUpdater } from 'preact/hooks';
+import { Dispatch, StateUpdater } from 'preact/hooks';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -10,7 +10,7 @@ type FormProps = {
     onLanguageChange: () => void;
     onExposureChange: () => void;
     onCreate: () => void;
-    setTitle: StateUpdater<string>;
+    setTitle: Dispatch<StateUpdater<string>>;
     exposureList: Readonly<('Public' | 'Private')[]>;
     loggedIn: boolean;
     languageRef: RefObject<HTMLSelectElement>;

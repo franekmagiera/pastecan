@@ -45,3 +45,4 @@ $ python pastecan/main.py
  * Add tests, `flake8`, `black`, `mypy`
  * Add input sanitization on the client side
  * Create swagger documentation
+ * Enable type checks on error catches

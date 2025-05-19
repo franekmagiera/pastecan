@@ -13,6 +13,7 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "moduleResolution": "node",
+        "useUnknownInCatchVariables": false,
     },
     "include": [
         "pastecan-ui/src"
