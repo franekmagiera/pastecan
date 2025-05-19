@@ -4,3 +4,4 @@ pastecan-ui/dist/
 config/config.yaml
 .vscode/
 env/
+.aider*
