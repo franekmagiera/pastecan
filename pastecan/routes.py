@@ -1,4 +1,4 @@
-from handlers import (
+from pastecan.handlers import (
     delete_paste,
     get_index,
     get_paste,
@@ -11,7 +11,7 @@ from handlers import (
     token,
     twitter_login
 )
-from settings import STATIC_DIR
+from pastecan.settings import STATIC_DIR
 
 def setup_routes(app):
     # Catch all routes used on the front end and return the index page.

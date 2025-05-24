@@ -7,10 +7,10 @@ import oauthlib.oauth1
 from sqlalchemy import and_, desc, func, or_, select
 from yarl import URL
 
-from db import transaction_context, pastes_table, login_sessions_table, users_table
-from json_schema import post_pastes_schema
-from mock_data import jane, john
-from settings import STATIC_DIR
+from pastecan.db import transaction_context, pastes_table, login_sessions_table, users_table
+from pastecan.json_schema import post_pastes_schema
+from pastecan.mock_data import jane, john
+from pastecan.settings import STATIC_DIR
 
 LANGUAGE_OPTIONS = ['none', 'clike', 'java', 'javascript', 'python', 'scala', 'scheme', 'typescript']
 MAX_CONTENT_LENGTH = 20000

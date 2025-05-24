@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 import sqlalchemy as sa
 from aiomysql.sa import create_engine
 from sqlalchemy.sql.schema import ForeignKey
-from mock_data import mock_users_data, mock_user_pastes_data, mock_pastes_data
+from pastecan.mock_data import mock_users_data, mock_user_pastes_data, mock_pastes_data
 
 
 metadata = sa.MetaData()

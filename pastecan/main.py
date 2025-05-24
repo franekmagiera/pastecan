@@ -2,9 +2,9 @@ import asyncio
 from aiohttp import ClientSession, web
 from yaml import safe_load
 
-from db import init_db
-from routes import setup_routes
-from settings import CONFIG_DIR
+from pastecan.db import init_db
+from pastecan.routes import setup_routes
+from pastecan.settings import CONFIG_DIR
 
 
 async def on_shutdown(app):
