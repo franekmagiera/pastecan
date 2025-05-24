@@ -40,9 +40,10 @@ $ python pastecan/main.py
 ```
 
 ## TODO:
- * Handle cases where user denies access via Twitter.
+ * Handle cases where user denies access via Twitter
  * Make set up easy
  * Add tests, `flake8`, `black`, `mypy`
  * Add input sanitization on the client side
  * Create swagger documentation
- * Enable type checks on error catches
+ * Enable type checks on error catches in UI code
+ * Verify HS256 vs RS256 (or any other method)
