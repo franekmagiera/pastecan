@@ -47,9 +47,10 @@ async def init(loop):
 
 
 def main():
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     app = loop.run_until_complete(init(loop))
-    web.run_app(app)
+    web.run_app(app, loop=loop)
 
 
 if __name__ == '__main__':
