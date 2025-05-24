@@ -9,23 +9,23 @@ metadata = sa.MetaData()
 
 login_sessions_table_name = 'login_sessions'
 login_sessions_table = sa.Table(login_sessions_table_name, metadata,
-                                sa.Column('oauth_token', sa.String(3072), primary_key=True, autoincrement=False),
+                                sa.Column('oauth_token', sa.String(767), primary_key=True, autoincrement=False),
                                 sa.Column('oauth_token_secret', sa.String(3072))
 )
 
 users_table_name = 'users'
 users_table = sa.Table(users_table_name, metadata,
-                       sa.Column('user_id', sa.String(3072), primary_key=True, autoincrement=False),
+                       sa.Column('user_id', sa.String(767), primary_key=True, autoincrement=False),
                        sa.Column('screen_name', sa.String(30)))
 
 pastes_table_name = 'pastes_table'
 pastes_table = sa.Table(pastes_table_name, metadata,
                         sa.Column('id', sa.Integer, primary_key=True),
-                        sa.Column('content', sa.String(20000)),
+                        sa.Column('content', sa.Text(20000)),
                         sa.Column('language', sa.String(20)),
                         sa.Column('date', sa.TIMESTAMP),
                         sa.Column('title', sa.String(20)),
-                        sa.Column('user_id', sa.String(3072), ForeignKey(users_table.c.user_id)),
+                        sa.Column('user_id', sa.String(767), ForeignKey(users_table.c.user_id)),
                         sa.Column('exposure', sa.String(8)))
 
 @asynccontextmanager
