@@ -11,7 +11,7 @@ async def on_shutdown(app):
     await app['client_session'].close()
 
 
-async def init(loop):
+async def init_app(loop):
     with open(CONFIG_DIR / 'config.yaml', 'r') as file:
         config = safe_load(file)
 
@@ -49,7 +49,7 @@ async def init(loop):
 def main():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    app = loop.run_until_complete(init(loop))
+    app = loop.run_until_complete(init_app(loop))
     web.run_app(app, loop=loop)
 
 

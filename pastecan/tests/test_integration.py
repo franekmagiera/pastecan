@@ -1,11 +1,11 @@
 import asyncio
 import pytest
 from aiohttp import test_utils
-from pastecan.main import init
+from pastecan.main import init_app
 
 @pytest.mark.asyncio
 async def test_create_and_get_paste():
-    app = await init(asyncio.get_running_loop())
+    app = await init_app(asyncio.get_running_loop())
     server = test_utils.TestServer(app)
     client = test_utils.TestClient(server)
     await client.start_server()
