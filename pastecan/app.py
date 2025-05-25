@@ -1,10 +1,7 @@
-import asyncio
 from aiohttp import ClientSession, web
-from yaml import safe_load
 
-from pastecan.db import create_tables, insert_mock_data
+from pastecan.db import create_tables
 from pastecan.routes import setup_routes
-from pastecan.settings import CONFIG_DIR
 
 
 async def on_shutdown(app):
