@@ -20,6 +20,10 @@ Pastecan is a [pastebin](https://pastebin.com/) clone. The backend is powered by
  * In production environment it is crucial to set up HTTPS as well.
 
 ## How to run?
+Requirements:
+- Nodejs 22.15.1
+- Python 3.12.1
+
 Example configuration is presented in `config/example_config.yaml`. This file should be renamed to `config.yaml` after applying suitable changes (for example after changing JWT key and Twitter API keys). Files containing confidential information should be included in a `.gitignore` file.
 
 To run:
@@ -36,12 +40,11 @@ $ pip install -r requirements.txt
 
 $ docker-compose up -d
 
-$ python pastecan/main.py
+$ python main.py
 ```
 
 ## TODO:
  * Handle cases where user denies access via Twitter
- * Make set up easy
  * Add tests, `flake8`, `black`, `mypy`
  * Add input sanitization on the client side
  * Create swagger documentation
