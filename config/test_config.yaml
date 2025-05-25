@@ -1,5 +1,5 @@
-TWITTER_API_KEY: placeholder
-TWITTER_API_SECRET_KEY: placeholder
+TWITTER_API_KEY: test-twitter-api-key
+TWITTER_API_SECRET_KEY: test-twitter-api-secret-key
 
 MYSQL_HOST: 127.0.0.1
 MYSQL_USER: root 
@@ -14,5 +14,5 @@ AUTHENTICATE_ENDPOINT: https://api.twitter.com/oauth/authenticate
 ACCESS_TOKEN_ENDPOINT: https://api.twitter.com/oauth/access_token
 VERIFY_CREDENTIALS_ENDPOINT: https://api.twitter.com/1.1/account/verify_credentials.json
 
-JWT_KEY: placeholder
+JWT_KEY: b1ed75a37d7539282ddf3309ce04c762e58e9747bb273b8e40191fc2ad8be5d1
 JWT_ALGORITHM: HS256

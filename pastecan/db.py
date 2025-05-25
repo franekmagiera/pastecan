@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 import sqlalchemy as sa
-from aiomysql.sa import create_engine
 from sqlalchemy.sql.schema import ForeignKey
 from pastecan.mock_data import mock_users_data, mock_user_pastes_data, mock_pastes_data
 
@@ -39,23 +38,21 @@ async def transaction_context(connection):
     else:
         await transaction.commit()
 
-
-async def init_db(user, db, host, password, loop):
-    engine = await create_engine(user=user, db=db, host=host, password=password, loop=loop)
-
+async def create_tables(engine):
     async with engine.acquire() as conn:
         async with transaction_context(conn) as tc_conn:
-            await tc_conn.execute(f'DROP TABLE IF EXISTS {login_sessions_table_name};')
-            await tc_conn.execute(f'DROP TABLE IF EXISTS {pastes_table_name};')
-            await tc_conn.execute(f'DROP TABLE IF EXISTS {users_table_name};')
+            await tc_conn.execute(sa.schema.CreateTable(login_sessions_table, if_not_exists=True))
+            await tc_conn.execute(sa.schema.CreateTable(users_table, if_not_exists=True))
+            await tc_conn.execute(sa.schema.CreateTable(pastes_table, if_not_exists=True))
 
-            await tc_conn.execute(sa.schema.CreateTable(login_sessions_table))
+async def insert_mock_data(engine):
+    async with engine.acquire() as conn:
+        async with transaction_context(conn) as tc_conn:
+            insert_users = users_table.insert().prefix_with("IGNORE")
+            await tc_conn.execute(insert_users, mock_users_data)
 
-            await tc_conn.execute(sa.schema.CreateTable(users_table))
-            await tc_conn.execute(users_table.insert().values(mock_users_data))
+            insert_pastes = pastes_table.insert().prefix_with("IGNORE")
+            await tc_conn.execute(insert_pastes, mock_pastes_data)
 
-            await tc_conn.execute(sa.schema.CreateTable(pastes_table))
-            await tc_conn.execute(pastes_table.insert().values(mock_pastes_data))
-            await tc_conn.execute(pastes_table.insert().values(mock_user_pastes_data))
+            await tc_conn.execute(insert_pastes, mock_user_pastes_data)
 
-    return engine
